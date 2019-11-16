@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PostActivity">
+
+    <EditText
+        android:layout_marginTop="0dp"
+        android:paddingTop="5dp"
+        android:id="@+id/etCaption"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:hint="Caption your photo ..."
+        tools:text="My name is what, my name is what?????? Slim shady brady, that is what they call me in the hood incase you never knew who my real name is, well now you know homies, now you know .............................That is the greates hoax you will ever get to hear today..."
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnTakePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="take picture"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        tools:srcCompat="@tools:sample/avatars[1]" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Submit"
+        android:layout_marginBottom="30dp"/>
+</LinearLayout>
