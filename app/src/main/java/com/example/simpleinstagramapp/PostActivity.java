@@ -89,12 +89,22 @@ public class PostActivity extends AppCompatActivity {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 //Bitmap takenImage = rotateBitmapOrientation(photoFile.getAbsolutePath());
-                image.setImageBitmap(takenImage);
+                Bitmap rotatedImage = rotateImage (takenImage);
+                image.setImageBitmap(rotatedImage);
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
     }
+    private Bitmap rotateImage(Bitmap takenImage) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(takenImage, 300, 300, true);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
+        return rotatedBitmap;
+    }
+
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
