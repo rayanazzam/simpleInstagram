@@ -1,81 +1,65 @@
 package com.example.simpleinstagramapp;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.MenuItem;
 
 import com.example.simpleinstagramapp.Models.Post;
 import com.example.simpleinstagramapp.adapters.PostAdapter;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-
-import org.parceler.Parcels;
-
-import java.util.ArrayList;
+import com.example.simpleinstagramapp.fragments.ComposeFragment;
+import com.example.simpleinstagramapp.fragments.FeedsFragment;
+import com.example.simpleinstagramapp.fragments.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
 
 public class FeedsActivity extends AppCompatActivity {
 
-    private static final int request_code = 20;
 
     RecyclerView rView;
     PostAdapter adapter;
     List<Post> posts;
-    ImageView imgAdd;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeds);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        imgAdd = findViewById(R.id.ivAdd);
-
-        posts = new ArrayList<>();
-        adapter = new PostAdapter(posts, this);
-
-        rView = findViewById(R.id.rvPosts);
-        rView.setAdapter(adapter);
-        rView.setLayoutManager(new LinearLayoutManager(this));
-
-        refreshTimeLine();
-        imgAdd.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FeedsActivity.this, PostActivity.class);
-                startActivityForResult(intent, request_code);
-            }
-        });
-    }
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = null;
 
-    private void refreshTimeLine() {
-        posts.clear();
-        ParseQuery<Post> query = new ParseQuery<Post>(Post.class);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> postObjects, ParseException e) {
-                if (e != null) {
-                    Log.e("Tag", "Error downloading post objects");
-                    return;
+                Fragment fragmentHome = new FeedsFragment();
+                Fragment fragmentCompose = new ComposeFragment();
+                Fragment fragmentProfile = new ProfileFragment();
+                switch (menuItem.getItemId()) {
+                    case R.id.actionHome:
+                        fragment = fragmentHome;
+                        break;
+                    case R.id.actionAdd:
+                        fragment = fragmentCompose;
+                        break;
+                    case R.id.actionPeople:
+                        fragment = fragmentProfile;
+                        break;
+                    default:
+                        break;
                 }
-                posts.addAll(postObjects);
-                adapter.notifyDataSetChanged();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
             }
         });
+
+        bottomNavigationView.setSelectedItemId(R.id.actionHome);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == request_code && resultCode == RESULT_OK) {
-           refreshTimeLine();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+
 }

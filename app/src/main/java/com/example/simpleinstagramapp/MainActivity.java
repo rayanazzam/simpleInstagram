@@ -2,6 +2,7 @@ package com.example.simpleinstagramapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.LauncherActivity;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;

@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.simpleinstagramapp.Models.Post;
 import com.example.simpleinstagramapp.R;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -59,7 +59,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public void bind (Post post) {
             this.postCaption.setText(post.getDescription());
             if (post.getImage() != null) {
-                post.getImage().getDataInBackground(new GetDataCallback() {
+                Glide.with(context).load(post.getImage().getUrl()).into(postImage);
+                //Picasso.get().load(post.getImage().getUrl()).fit().into(postImage);
+                Log.e(TAG, "working" + post.getImage().getUrl());
+                /*post.getImage().getDataInBackground(new GetDataCallback() {
                     @Override
                     public void done(byte[] data, ParseException e) {
                         if (e == null) {
@@ -70,7 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             Log.e(TAG, "Problem setting image");
                         }
                     }
-                });
+                });*/
             }
 
         }
